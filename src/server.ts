@@ -11,6 +11,15 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+pool.connect()
+  .then((client) => {
+    console.log('Connected to AWS PostgreSQL');
+    client.release();
+  })
+  .catch((err) => {
+    console.error('AWS connection error:', err);
+  });
+
 const isValidEmail = (email: string): boolean => {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regex.test(email);
